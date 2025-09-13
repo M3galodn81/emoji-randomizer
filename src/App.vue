@@ -10,7 +10,7 @@ import {
 </script>
 
 <template>
-    <div class="min-h-screen bg-amber-200 ">
+    <div class="min-h-screen min-w-screen bg-amber-200 ">
         <section class="pt-32 pb-16 px-16 ">
             <!-- Hero -->
             <div class="relative ">
@@ -23,10 +23,28 @@ import {
             </div>
 
             <!-- Content -->
-            <div class="relative z-10 text-center py-20">
-                <h1 class="text-black">
+            <div class="relative z-10 text-center py-20 ">
+                <h1 class="text-black mb-10">
                     Test
                 </h1>
+                
+                <div class="m-2">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle> Wawa</CardTitle>
+                            <CardDescription>Omg gdo</CardDescription>
+                        </CardHeader>
+
+                        <CardContent>
+                            Card Content &#129303;
+                        </CardContent>
+
+                        <CardFooter>
+                            romanji
+                        </CardFooter>
+
+                    </Card>
+                </div>
             </div>
         </section>
 
@@ -48,6 +66,12 @@ import {
     </div>
 </template>
 
+<script>
+
+
+
+
+</script>
 
 <style scoped>
 
