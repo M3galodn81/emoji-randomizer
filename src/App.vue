@@ -7,6 +7,46 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+
+import { Button } from '@/components/ui/button'
+
+import axios from 'axios';
+import { ref , onMounted } from 'vue'
+
+// {
+//     "name": "hugging face",
+//     "category": "smileys and people",
+//     "group": "face positive",
+//     "htmlCode": ["&#129303;"],
+//     "unicode": ["U+1F917"]
+// }
+// api format
+
+const emojiName = ref<string>('')
+const emojiCategory = ref<string>('')
+const emojiGroup = ref<string>('')
+const emoji = ref<string>('')
+const emojiUnicode = ref<string>('')
+
+
+// function to fetch random emoji
+async function fetchEmoji() {
+  try {
+    const response = await axios.get('https://emojihub.yurace.pro/api/random')
+    // console.log(response.data) // debug
+    // show actual emoji (HTML code → decoded)
+    emoji.value = response.data.htmlCode[0]
+    emojiName.value = response.data.name
+    emojiCategory.value = response.data.category
+    emojiGroup.value = response.data.group
+    emojiUnicode.value = response.data.unicode[0]
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// fetch one when component mounts
+onMounted(fetchEmoji)
 </script>
 
 <template>
@@ -25,53 +65,43 @@ import {
             <!-- Content -->
             <div class="relative z-10 text-center py-20 ">
                 <h1 class="text-black mb-10">
-                    Test
+                    Randomizer
                 </h1>
                 
                 <div class="m-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle> Wawa</CardTitle>
-                            <CardDescription>Omg gdo</CardDescription>
+                            <CardTitle >
+                                <span class="text-2xl" v-text="emojiName"> </span>
+                            </CardTitle>
+                            <CardDescription>Group: <span  v-text="emojiGroup"> </span></CardDescription>
                         </CardHeader>
 
                         <CardContent>
-                            Card Content &#129303;
+                           <span class="text-9xl" v-html="emoji"> </span>
                         </CardContent>
 
-                        <CardFooter>
-                            romanji
+                        <CardFooter class="flex flex-col">
+                            <span class="text-center " v-text="emojiUnicode"> </span>
                         </CardFooter>
-
+                        <Button  size="lg" class="m-auto" @click="fetchEmoji"> 
+                            Randomize
+                    </Button>
                     </Card>
+
+                    
                 </div>
             </div>
         </section>
 
-        <Card>
-            <CardHeader>
-                <CardTitle> Wawa</CardTitle>
-                <CardDescription>Omg gdo</CardDescription>
-            </CardHeader>
-
-            <CardContent>
-                Card Content
-            </CardContent>
-
-            <CardFooter>
-                romanji
-            </CardFooter>
-
-        </Card>
+       
     </div>
 </template>
 
-<script>
+
+   
 
 
-
-
-</script>
 
 <style scoped>
 
