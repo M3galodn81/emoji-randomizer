@@ -35,8 +35,8 @@ async function fetchEmoji() {
     const response = await axios.get('https://emojihub.yurace.pro/api/random')
     // console.log(response.data) // debug
     // show actual emoji (HTML code → decoded)
-    emoji.value = response.data.htmlCode[0]
-    emojiName.value = response.data.name
+    emoji.value = response.data.htmlCode.join('')
+    emojiName.value = response.data.name.normalize();
     emojiCategory.value = response.data.category
     emojiGroup.value = response.data.group
     emojiUnicode.value = response.data.unicode[0]
@@ -82,7 +82,8 @@ onMounted(fetchEmoji)
                         </CardContent>
 
                         <CardFooter class="flex flex-col">
-                            <span class="text-center " v-text="emojiUnicode"> </span>
+                            <div> HTML Code: <span v-text="emoji"> </span> </div>
+                            <div> Unicode: <span v-text="emojiUnicode"> </span> </div>
                         </CardFooter>
                         <Button  size="lg" class="m-auto" @click="fetchEmoji"> 
                             Randomize
