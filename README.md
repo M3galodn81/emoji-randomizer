@@ -33,7 +33,7 @@ Built with **Vue 3**, **TypeScript**, **Vite**, **TailwindCSS**, and **shadcn/ui
 Clone the repo and install dependencies:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/emoji-randomizer.git
+git clone https://github.com/M3galodn81/emoji-randomizer.git
 cd emoji-randomizer
 npm install
 ````
@@ -107,8 +107,7 @@ src/
 ## 📌 To Do / Possible Improvements
 
 * Add copy-to-clipboard for emoji
-* Filter by category or group
 * Show multiple random emojis at once
-
+* History with clipboard 
 ---
 
