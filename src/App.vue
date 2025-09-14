@@ -33,8 +33,6 @@ const emojiUnicode = ref<string>('')
 async function fetchEmoji() {
   try {
     const response = await axios.get('https://emojihub.yurace.pro/api/random')
-    // console.log(response.data) // debug
-    // show actual emoji (HTML code → decoded)
     emoji.value = response.data.htmlCode.join('')
     emojiName.value = response.data.name.normalize();
     emojiCategory.value = response.data.category
@@ -98,11 +96,6 @@ onMounted(fetchEmoji)
        
     </div>
 </template>
-
-
-   
-
-
 
 <style scoped>
 
