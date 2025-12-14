@@ -134,9 +134,15 @@ onMounted(fetchEmoji)
                             v-html="item.emoji"
                             />
                         </div>
-                    </div>
+                    </div> 
+                </div>
 
-                    
+                <div class="mt-8 text-sm text-gray-700">
+                    Made by M3galodn81 | 
+                    <a href="https://github.com/M3galodn81/emoji-randomizer" target="_blank" class="underline">
+                        Source Code
+                    </a>
+
                 </div>
             </div>
         </section>
