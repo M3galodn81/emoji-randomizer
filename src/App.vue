@@ -22,6 +22,16 @@ import { ref , onMounted } from 'vue'
 // }
 // api format
 
+type EmojiItem = {
+  name: string
+  emoji: string
+  unicode: string
+}
+
+const history = ref<EmojiItem[]>([])
+const copied = ref(false)
+
+
 const emojiName = ref<string>('')
 const emojiCategory = ref<string>('')
 const emojiGroup = ref<string>('')
@@ -33,15 +43,33 @@ const emojiUnicode = ref<string>('')
 async function fetchEmoji() {
   try {
     const response = await axios.get('https://emojihub.yurace.pro/api/random')
-    emoji.value = response.data.htmlCode.join('')
-    emojiName.value = response.data.name.normalize();
+
+    const newEmoji = response.data.htmlCode.join('')
+    const name = response.data.name.normalize()
+    const unicode = response.data.unicode[0]
+
+    emoji.value = newEmoji
+    emojiName.value = name
     emojiCategory.value = response.data.category
     emojiGroup.value = response.data.group
-    emojiUnicode.value = response.data.unicode[0]
+    emojiUnicode.value = unicode
+
+    // push to history (avoid duplicates at top)
+    history.value.unshift({ name, emoji: newEmoji, unicode })
+
+    // limit to 10
+    history.value = history.value.slice(0, 10)
   } catch (error) {
     console.error(error)
   }
 }
+
+async function copyEmoji(value: string) {
+  await navigator.clipboard.writeText(value)
+  copied.value = true
+  setTimeout(() => (copied.value = false), 1200)
+}
+
 
 // fetch one when component mounts
 onMounted(fetchEmoji)
@@ -75,9 +103,14 @@ onMounted(fetchEmoji)
                             <CardDescription>Group: <span  v-text="emojiGroup"> </span></CardDescription>
                         </CardHeader>
 
-                        <CardContent>
-                           <span class="text-9xl" v-html="emoji"> </span>
+                        <CardContent class="flex flex-col items-center gap-4">
+                            <span class="text-9xl" v-html="emoji"></span>
+
+                            <Button @click="copyEmoji(emoji)">
+                                {{ copied ? 'Copied!' : 'Copy Emoji' }}
+                            </Button>
                         </CardContent>
+
 
                         <CardFooter class="flex flex-col">
                             <div> HTML Code: <span v-text="emoji"> </span> </div>
@@ -87,6 +120,21 @@ onMounted(fetchEmoji)
                             Randomize
                     </Button>
                     </Card>
+
+                    <div class="mt-10 max-w-xl mx-auto">
+                        <h2 class="text-xl mb-4 font-semibold">History (last 10)</h2>
+
+                        <div class="grid grid-cols-5 gap-3">
+                            <button
+                            v-for="(item, index) in history"
+                            :key="index"
+                            class="text-3xl p-2 rounded hover:bg-amber-300 transition"
+                            @click="copyEmoji(item.emoji)"
+                            :title="item.name"
+                            v-html="item.emoji"
+                            />
+                        </div>
+                    </div>
 
                     
                 </div>
