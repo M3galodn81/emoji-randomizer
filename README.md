@@ -101,13 +101,5 @@ src/
   "unicode": ["U+1F917"]
 }
 ```
-
----
-
-## 📌 To Do / Possible Improvements
-
-* Add copy-to-clipboard for emoji
-* Show multiple random emojis at once
-* History with clipboard 
 ---
 
